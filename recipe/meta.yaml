@@ -1,0 +1,51 @@
+{% set name = "openxlab" %}
+{% set version = "0.0.31" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.gz
+  sha256: c431f7772f67d18d4520cceffbab54d377030f398b5999f6c0e07274a55346a1
+
+build:
+  entry_points:
+    - openxlab = openxlab.cli:main
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  number: 0
+
+requirements:
+  host:
+    - python >=3.8
+    - hatchling >=1.8.0
+    - hatch-fancy-pypi-readme
+    - poetry-core
+    - pip
+  run:
+    - python >=3.8
+    - requests >=2.28.2
+    - tqdm >=4.65.0
+    - pyyaml >=6.0
+    - oss2 >=2.17.0
+    - pytz >=2023.3
+    - setuptools >=60.2.0
+    - rich >=13.4.2
+
+test:
+  imports:
+    - openxlab
+  commands:
+    - pip check
+    - openxlab --help
+  requires:
+    - pip
+
+about:
+  summary: openxlab tools
+  license: Apache-2.0
+  license_file: PLEASE_ADD_LICENSE_FILE
+
+extra:
+  recipe-maintainers:
+    - boldorider4
